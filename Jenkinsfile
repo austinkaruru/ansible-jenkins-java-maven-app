@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        ANSIBLE_SERVER = "4.90.111.62"
+        ANSIBLE_SERVER = "34.90.111.62"
     }
     stages {
         stage("Copying files to ansible server") {
@@ -31,7 +31,7 @@ pipeline {
                         remote.user = user
                         remote.identityFile = keyfile
                         
-                        sshCommand remote: remote, command: "ls -l"
+                        sshScript remote: remote, script: "prepare-ansible-server.sh"
                         sshCommand remote: remote, command: "ansible-playbook my-playbook.yaml"
                     }
                     
