@@ -1,0 +1,40 @@
+---
+- name: Install Python, Docker & Docker-compose
+  hosts: tag_Name_dev_server
+  become: true
+  tasks:
+    - name: Installing Python & Docker
+
+      yum: 
+        name: 
+        - python3
+        - docker
+        update_cache: yes
+        state: present
+    - name: Download & install Docker-Compose v2
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/v2.27.1/docker-compose-linux-{{ ansible_architecture }}"
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+      become: true
+
+
+
+- name: Start Docker
+  hosts: tag_Name_dev_server
+  become: true
+  tasks:
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+
+    - name: Ensure pip is installed
+      yum:
+        name: python3-pip
+        state: present
+
+    - name: Install docker python module (ignore system packages)
+      pip:
+        name: docker
+        extra_args: --ignore-installed --user
