@@ -1,6 +1,6 @@
 ---
 - name: Install Python, Docker & Docker-compose
-  hosts: tag_Name_dev_server
+  hosts: aws_ec2
   become: true
   tasks:
     - name: Installing Python & Docker
@@ -21,7 +21,7 @@
 
 
 - name: Start Docker
-  hosts: tag_Name_dev_server
+  hosts: aws_ec2
   become: true
   tasks:
     - name: Start Docker service
